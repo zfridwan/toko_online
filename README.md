@@ -2,8 +2,6 @@
 
 A new Flutter project.
 
-## Getting Started
-
 How to use:
 
 - Untuk bisa menggunakan aplikasi ini. Daftar telebih dahulu di halaman Sign Up.
