@@ -1,8 +1,8 @@
-import '../model/cart-item-model.dart';
-import '../model/product-model.dart';
-
 class MockDatabase {
-  static Map<String, Map<String, String>> _users = {};
+  static Map<String, Map<String, String>> _users = {
+    // Pre-populate with a test user for easy testing
+    't': {'email': 'test@example.com', 'password': '1'},
+  };
   static String? currentUsername;
 
   static bool signUp(String username, String email, String password) {
@@ -19,11 +19,14 @@ class MockDatabase {
   }
 
   static bool signIn(String username, String password) {
+    print("Attempting sign-in with Username: $username, Password: $password");
     if (_users.containsKey(username) &&
         _users[username]!['password'] == password) {
+      print("Sign-in successful for user: $username");
       currentUsername = username;
       return true;
     }
+    print("Sign-in failed for user: $username");
     return false;
   }
 

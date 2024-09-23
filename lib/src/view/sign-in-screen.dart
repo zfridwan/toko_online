@@ -1,127 +1,122 @@
 import 'package:flutter/material.dart';
-import 'package:toko_online/src/view/product-list-screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/mock-database.dart';
-import 'sign-up-screen.dart';
+import '../Widgets/social_signin.dart';
+import '../Widgets/text_data_widget.dart';
+import '../Widgets/text_form_field.dart';
+import '../bloc/authentication/auth_bloc.dart';
+import '../components/image_builder.dart';
+import '../components/loader.dart';
+import '../components/spacers.dart';
+import '../constants.dart';
+import '../images.dart';
+import '../widgets/login-btn.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true;
-  final _formKey = GlobalKey<FormState>();
+  late FocusNode usernameFocus;
+  late FocusNode passwordFocus;
+  late FocusNode loginBtnFocus;
+  late TextEditingController userName;
+  late TextEditingController password;
 
-  void _togglePasswordVisibility() {
-    setState(() {
-      _obscurePassword = !_obscurePassword;
-    });
-  }
-  // if (MockDatabase.signIn(username, password)) {
-
-  void _signIn() {
-    if (_formKey.currentState!.validate()) {
-      final username = _usernameController.text.trim();
-      final password = _passwordController.text.trim();
-
-      // Check if the sign-in attempt is successful
-      if (MockDatabase.signIn(username, password)) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => ProductListScreen()),
-          (route) => false,
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                'Username atau password salah, atau Anda belum mendaftar.'),
-          ),
-        );
-      }
-    }
+  @override
+  void initState() {
+    super.initState();
+    usernameFocus = FocusNode();
+    passwordFocus = FocusNode();
+    loginBtnFocus = FocusNode();
+    userName = TextEditingController();
+    password = TextEditingController();
   }
 
-  void _navigateToSignUp() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SignUpScreen()),
-    );
+  @override
+  void dispose() {
+    usernameFocus.dispose();
+    passwordFocus.dispose();
+    loginBtnFocus.dispose();
+    userName.dispose();
+    password.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Sign In'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Username tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: _togglePasswordVisibility,
-                  ),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 24.0),
-              ElevatedButton(
-                onPressed: _signIn,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                ),
-                child: Text('Sign In'),
-              ),
-              SizedBox(height: 16.0),
-              TextButton(
-                onPressed: _navigateToSignUp,
-                child: Text("Belum punya akun? Daftar"),
-              ),
-            ],
-          ),
-        ),
+      backgroundColor: Colors.transparent,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthError) {
+            buildErrorLayout();
+          } else if (state is AuthLoaded) {
+            clearTextData();
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/dashboard',
+              (Route<dynamic> route) => false,
+              arguments: state.username,
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            return LoadingWidget(child: buildInitialInput());
+          } else {
+            return buildInitialInput();
+          }
+        },
       ),
     );
+  }
+
+  Widget buildInitialInput() => SingleChildScrollView(
+        child: Column(
+          children: [
+            ImageBuilder(imagePath: loginImages[1]),
+            const TextData(message: "User"),
+            HeightSpacer(myHeight: kSpacing),
+            InputField(
+              focusNode: usernameFocus,
+              textController: userName,
+              label: "Username",
+              icons: const Icon(Icons.person, color: Colors.blue),
+            ),
+            HeightSpacer(myHeight: kSpacing),
+            InputField(
+              focusNode: passwordFocus,
+              textController: password,
+              label: "Password",
+              icons: const Icon(Icons.lock, color: Colors.blue),
+            ),
+            HeightSpacer(myHeight: kSpacing),
+            LoginBtn(
+              focusNode: loginBtnFocus,
+              userName: userName,
+              password: password,
+            ),
+            HeightSpacer(myHeight: kSpacing),
+            const SocialSignIn(),
+          ],
+        ),
+      );
+
+  ScaffoldFeatureController buildErrorLayout() =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Masukkan username/password dengan benar'),
+        ),
+      );
+
+  clearTextData() {
+    userName.clear();
+    password.clear();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../model/cart-item-model.dart';
-import '../model/product-model.dart';
+import '../models/cart-item-model.dart';
+import '../models/product-model.dart';
 
 class Cart with ChangeNotifier {
   Cart._privateConstructor();
@@ -42,7 +42,6 @@ class Cart with ChangeNotifier {
     } else {
       _items.remove(existingItem);
     }
-    // Notify listeners if using ChangeNotifier or similar
     notifyListeners();
   }
 

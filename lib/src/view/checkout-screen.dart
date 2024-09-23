@@ -26,9 +26,7 @@ class CheckoutScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Handle checkout process
-              },
+              onPressed: () {},
               child: Text('Complete Purchase'),
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

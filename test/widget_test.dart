@@ -8,13 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:toko_online/main.dart';
-import 'package:toko_online/src/view/product-list-screen.dart';
+import 'package:toko_online/src/view/sign-in-screen.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(ProductListScreen());
+    await tester.pumpWidget(SignInScreen(
+      title: '',
+    ));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

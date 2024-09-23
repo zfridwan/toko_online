@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/cart-mock.dart';
 import '../core/mock-database.dart';
-import '../model/product-model.dart';
+import '../models/product-model.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
@@ -21,13 +21,17 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(product.title),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(screenSize.width * 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -36,8 +40,12 @@ class ProductDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15.0),
                   child: Image.network(
                     product.image,
-                    height: 100,
-                    width: 80,
+                    height: isPortrait
+                        ? screenSize.height * 0.25
+                        : screenSize.height * 0.3,
+                    width: isPortrait
+                        ? screenSize.width * 0.5
+                        : screenSize.width * 0.4,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(
@@ -52,8 +60,8 @@ class ProductDetailScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 product.title,
-                style: const TextStyle(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -61,7 +69,7 @@ class ProductDetailScreen extends StatelessWidget {
               Text(
                 'Price: \$${product.price}',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 14,
                   color: Colors.green,
                 ),
               ),
@@ -69,14 +77,14 @@ class ProductDetailScreen extends StatelessWidget {
               Text(
                 'Description',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 10),
               Text(
                 product.description ?? 'Deskripsi tidak tersedia.',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 14),
               ),
               SizedBox(height: 20),
               Center(
@@ -86,6 +94,10 @@ class ProductDetailScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.blue,
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenSize.height * 0.02,
+                      horizontal: screenSize.width * 0.2,
+                    ),
                   ),
                 ),
               ),

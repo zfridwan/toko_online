@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart'; // Add email validator package
+import 'package:email_validator/email_validator.dart';
 
 import '../core/mock-database.dart';
 
@@ -46,81 +46,110 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isPortrait = screenSize.height > screenSize.width;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text('Sign Up'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Username tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
-                ),
-                validator: (value) {
-                  if (value == null || !EmailValidator.validate(value)) {
-                    return 'Masukkan email yang valid';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-              TextFormField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                    height: isPortrait
+                        ? screenSize.height * 0.05
+                        : screenSize.height * 0.03),
+                Container(
+                  width: isPortrait
+                      ? screenSize.width * 0.9
+                      : screenSize.width * 0.6,
+                  child: TextFormField(
+                    controller: _usernameController,
+                    decoration: InputDecoration(
+                      labelText: 'Username',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.person),
                     ),
-                    onPressed: _togglePasswordVisibility,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Username tidak boleh kosong';
+                      }
+                      return null;
+                    },
                   ),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password tidak boleh kosong';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 24.0),
-              ElevatedButton(
-                onPressed: _signUp,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
+                SizedBox(height: 16.0),
+                Container(
+                  width: isPortrait
+                      ? screenSize.width * 0.9
+                      : screenSize.width * 0.6,
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.email),
+                    ),
+                    validator: (value) {
+                      if (value == null || !EmailValidator.validate(value)) {
+                        return 'Masukkan email yang valid';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-                child: Text('Sign Up'),
-              ),
-            ],
+                SizedBox(height: 16.0),
+                Container(
+                  width: isPortrait
+                      ? screenSize.width * 0.9
+                      : screenSize.width * 0.6,
+                  child: TextFormField(
+                    controller: _passwordController,
+                    obscureText: _obscurePassword,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.lock),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: _togglePasswordVisibility,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Password tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                SizedBox(height: 24.0),
+                Container(
+                  width: isPortrait
+                      ? screenSize.width * 0.9
+                      : screenSize.width * 0.6,
+                  child: ElevatedButton(
+                    onPressed: _signUp,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: Text('Sign Up'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
