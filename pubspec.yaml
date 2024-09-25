@@ -41,7 +41,6 @@ dependencies:
   bloc: ^8.1.4
   equatable:
   formz: ^0.7.0
-  uuid:
 
 dev_dependencies:
   flutter_test:

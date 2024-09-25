@@ -51,7 +51,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
@@ -81,7 +81,7 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           children: [
             ImageBuilder(imagePath: loginImages[1]),
-            const TextData(message: "User"),
+            // const TextData(message: "Login User"),
             HeightSpacer(myHeight: kSpacing),
             InputField(
               focusNode: usernameFocus,

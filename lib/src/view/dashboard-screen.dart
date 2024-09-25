@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:toko_online/src/view/category-list-screen.dart';
-
 import '../bloc/dashboard/dashboard_bloc.dart';
 import '../components/loader.dart';
 import '../components/spacers.dart';
@@ -12,6 +11,7 @@ import '../models/category-model.dart';
 import '../models/product-model.dart';
 import 'cart-screen.dart';
 import 'product-detail-screen.dart';
+import 'profile-screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key, required this.title, required this.username})
@@ -26,18 +26,33 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   TextEditingController _searchController = TextEditingController();
-
   double screenWidth = 0.0;
+  int _currentIndex = 0; // Track the current index of the selected tab
+  final List<Widget> _children = [
+    CategoryListScreen(), // Page for Home
+    ProfileScreen(), // Page for Profile
+  ];
 
-  @override
-  void initState() {
-    super.initState();
+  PageController _pageController =
+      PageController(); // Controller for the PageView
+
+  void onTabTapped(int index) {
+    _pageController.jumpToPage(index); // Navigate to the selected page
+    setState(() {
+      _currentIndex = index; // Update the current index
+    });
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _pageController.dispose(); // Dispose the PageController
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -57,9 +72,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: initialLayout(context),
             );
           } else {
-            return initialLayout(context);
+            return PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index; // Update index on page change
+                });
+              },
+              children: _children,
+            );
           }
         },
+      ),
+      // Adding Bottom Navigation Bar
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: onTabTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }

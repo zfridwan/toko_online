@@ -56,21 +56,31 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue, // Set background color to blue
         title: _isSearching
             ? TextField(
                 controller: _searchController,
                 decoration: const InputDecoration(
                   hintText: 'Searching...',
-                  hintStyle: TextStyle(color: Colors.blue),
-                  prefixIcon: Icon(Icons.search, color: Colors.blue),
+                  hintStyle: TextStyle(
+                      color: Colors.white), // Change hint text color to white
+                  prefixIcon: Icon(Icons.search,
+                      color: Colors.white), // Change prefix icon color to white
                   border: InputBorder.none,
                 ),
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(
+                    color: Colors.white), // Change text input color to white
               )
-            : const Text('Toko Online', style: TextStyle(color: Colors.blue)),
+            : const Text(
+                'Toko Online',
+                style: TextStyle(
+                    color: Colors.white), // Change title text color to white
+              ),
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_cart,
+                color:
+                    Colors.white), // Change shopping cart icon color to white
             onPressed: () {
               Navigator.push(
                 context,
@@ -78,18 +88,6 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
               );
             },
           ),
-          // IconButton(
-          //   onPressed: () {
-          //     setState(() {
-          //       _isSearching = !_isSearching;
-          //       if (!_isSearching) {
-          //         _searchController.clear();
-          //         _onSearchChanged();
-          //       }
-          //     });
-          //   },
-          //   icon: Icon(_isSearching ? Icons.close : Icons.search),
-          // ),
         ],
       ),
       body: BlocListener<ProductBloc, ProductState>(
@@ -121,122 +119,146 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 _selectedCategoryId = state.categories.first.id;
                 BlocProvider.of<ProductBloc>(context).add(FetchProducts());
               }
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 200,
-                      child: state.categories.isNotEmpty
-                          ? SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: state.categories.map((category) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      _onCategorySelected(category.id);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: Image.network(
-                                              category.image,
-                                              height: 80,
-                                              width: 80,
-                                              fit: BoxFit.cover,
-                                              errorBuilder:
-                                                  (context, error, stackTrace) {
-                                                return const Icon(
-                                                  Icons.image_not_supported,
-                                                  size: 80,
-                                                  color: Colors.grey,
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          SizedBox(
-                                            width: 80,
-                                            child: Text(
-                                              category.name,
-                                              style: TextStyle(
-                                                fontSize: MediaQuery.of(context)
-                                                            .size
-                                                            .width >
-                                                        600
-                                                    ? 16
-                                                    : 12,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ),
-                    _isLoading
-                        ? const Center(child: CircularProgressIndicator())
-                        : _filteredProducts.isNotEmpty
-                            ? SingleChildScrollView(
-                                child: Column(
-                                  children: _filteredProducts.map((product) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Card(
-                                        elevation: 5,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProductDetailScreen(
-                                                        product: product),
-                                              ),
-                                            );
-                                          },
-                                          child: Row(
+
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  double screenWidth = constraints.maxWidth;
+                  int crossAxisCount = screenWidth > 900
+                      ? 4
+                      : screenWidth > 600
+                          ? 3
+                          : 2;
+
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 200,
+                          child: state.categories.isNotEmpty
+                              ? SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: state.categories.map((category) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          _onCategorySelected(category.id);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment.center,
                                             children: [
                                               ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(15.0),
+                                                    BorderRadius.circular(50),
                                                 child: Image.network(
-                                                  product.image,
-                                                  height: 100,
+                                                  category.image,
+                                                  height: 80,
                                                   width: 80,
                                                   fit: BoxFit.cover,
                                                   errorBuilder: (context, error,
                                                       stackTrace) {
                                                     return const Icon(
                                                       Icons.image_not_supported,
-                                                      size: 100,
+                                                      size: 80,
                                                       color: Colors.grey,
                                                     );
                                                   },
                                                 ),
                                               ),
-                                              const SizedBox(width: 16),
-                                              Expanded(
-                                                child: Padding(
+                                              const SizedBox(height: 5),
+                                              SizedBox(
+                                                width: 80,
+                                                child: Text(
+                                                  category.name,
+                                                  style: TextStyle(
+                                                    fontSize: screenWidth > 600
+                                                        ? 16
+                                                        : 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
+
+                        // Loading indicator or product grid
+                        _isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : _filteredProducts.isNotEmpty
+                                ? SizedBox(
+                                    height:
+                                        300, // Limiting the height of the GridView
+                                    child: GridView.builder(
+                                      padding: const EdgeInsets.all(8.0),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: crossAxisCount,
+                                        crossAxisSpacing: 10,
+                                        mainAxisSpacing: 10,
+                                        childAspectRatio: 1,
+                                      ),
+                                      itemCount: _filteredProducts.length,
+                                      itemBuilder: (context, index) {
+                                        final product =
+                                            _filteredProducts[index];
+                                        return Card(
+                                          elevation: 5,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProductDetailScreen(
+                                                    product: product,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius
+                                                          .vertical(
+                                                    top: Radius.circular(15.0),
+                                                  ),
+                                                  child: Image.network(
+                                                    product.image,
+                                                    height: 100,
+                                                    width: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (context,
+                                                        error, stackTrace) {
+                                                      return const Icon(
+                                                        Icons
+                                                            .image_not_supported,
+                                                        size: 100,
+                                                        color: Colors.grey,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: Column(
@@ -249,50 +271,44 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width >
-                                                                  600
-                                                              ? 20
-                                                              : 18,
+                                                          fontSize:
+                                                              screenWidth > 600
+                                                                  ? 16
+                                                                  : 14,
                                                         ),
-                                                        maxLines: 2,
+                                                        maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),
-                                                      const SizedBox(
-                                                          height: 10),
+                                                      const SizedBox(height: 5),
                                                       Text(
-                                                        '\$${product.price}',
+                                                        '\Rp.${product.price}',
                                                         style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width >
-                                                                  600
-                                                              ? 18
-                                                              : 16,
+                                                          fontSize:
+                                                              screenWidth > 600
+                                                                  ? 14
+                                                                  : 12,
                                                           color: Colors.green,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              )
-                            : const Center(
-                                child: Text('Tidak ada produk yang tersedia'),
-                              ),
-                  ],
-                ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : const Center(
+                                    child:
+                                        Text('Tidak ada produk yang tersedia'),
+                                  ),
+                      ],
+                    ),
+                  );
+                },
               );
             } else if (state is CategoryError) {
               return Center(child: Text('Error: ${state.message}'));
