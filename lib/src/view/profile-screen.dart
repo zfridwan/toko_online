@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Profile page widget
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

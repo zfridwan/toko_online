@@ -20,35 +20,28 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'] != null ? int.parse(json['id'].toString()) : 0,
-      title: json['title'] ?? '', // Default to empty string if null
-      description: json['description'] ?? '', // Default to empty string if null
-      price: _parsePrice(
-          json['price']), // Call helper function to handle the price conversion
-      image: _getFirstImage(json['images']), // Safely get the first image
-      category: Category.fromJson(
-          json['category'] ?? {}), // Default to empty object if null
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      price: _parsePrice(json['price']),
+      image: _getFirstImage(json['images']),
+      category: Category.fromJson(json['category'] ?? {}),
     );
   }
 
-  // Helper function to safely parse price
   static double _parsePrice(dynamic price) {
     if (price is String) {
-      return double.tryParse(price) ??
-          0.0; // Try to parse the string, return 0.0 if it fails
+      return double.tryParse(price) ?? 0.0;
     } else if (price is num) {
-      return price
-          .toDouble(); // Directly return the double if it's already a number
+      return price.toDouble();
     } else {
-      return 0.0; // Default value in case of any unexpected format
+      return 0.0;
     }
   }
 
-  // Helper function to get the first image safely
   static String _getFirstImage(dynamic images) {
     if (images is List && images.isNotEmpty) {
-      return images[0]
-          as String; // Return the first image if it's a non-empty list
+      return images[0] as String;
     }
-    return ''; // Return empty string if images is null or empty
+    return '';
   }
 }

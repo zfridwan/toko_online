@@ -13,20 +13,18 @@ class ProductInitial extends ProductState {}
 class ProductLoading extends ProductState {}
 
 class ProductLoaded extends ProductState {
-  final List<Product> products; // Declare the products variable
+  final List<Product> products;
 
-  const ProductLoaded(
-      {required this.products}); // Accept it as a named parameter
+  const ProductLoaded({required this.products});
 
   @override
-  List<Object?> get props => [products]; // Add products to props for Equatable
+  List<Object?> get props => [products];
 }
 
 class ProductError extends ProductState {
   final String message;
 
-  const ProductError(
-      {required this.message}); // Ensure message is also a named parameter
+  const ProductError({required this.message});
 
   @override
   List<Object?> get props => [message];

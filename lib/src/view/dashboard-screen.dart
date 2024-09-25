@@ -27,26 +27,25 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   TextEditingController _searchController = TextEditingController();
   double screenWidth = 0.0;
-  int _currentIndex = 0; // Track the current index of the selected tab
+  int _currentIndex = 0;
   final List<Widget> _children = [
-    CategoryListScreen(), // Page for Home
-    ProfileScreen(), // Page for Profile
+    CategoryListScreen(),
+    ProfileScreen(),
   ];
 
-  PageController _pageController =
-      PageController(); // Controller for the PageView
+  PageController _pageController = PageController();
 
   void onTabTapped(int index) {
-    _pageController.jumpToPage(index); // Navigate to the selected page
+    _pageController.jumpToPage(index);
     setState(() {
-      _currentIndex = index; // Update the current index
+      _currentIndex = index;
     });
   }
 
   @override
   void dispose() {
     _searchController.dispose();
-    _pageController.dispose(); // Dispose the PageController
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -76,7 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               controller: _pageController,
               onPageChanged: (index) {
                 setState(() {
-                  _currentIndex = index; // Update index on page change
+                  _currentIndex = index;
                 });
               },
               children: _children,

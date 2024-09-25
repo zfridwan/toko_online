@@ -14,7 +14,6 @@ class ApiService {
       final response =
           await httpClient.get(Uri.parse('$_baseUrl/categories.php'));
 
-      // Print the response status and body for debugging
       print('Response status: ${response.statusCode}');
       print('Response headers: ${response.headers}');
       print('Response body: ${response.body}');
@@ -36,25 +35,22 @@ class ApiService {
       final response = await http.get(Uri.parse('$_baseUrl/products.php'));
 
       if (response.statusCode == 200) {
-        // Print the response body for debugging
         print('Response body: ${response.body}');
 
-        // Decode the response body into a list
         final List<dynamic> jsonList = json.decode(response.body);
 
-        // Map the JSON list to Product objects
         return jsonList
             .map((json) {
               try {
                 return Product.fromJson(json);
               } catch (e) {
                 print('Error parsing product: $e');
-                return null; // or handle accordingly
+                return null;
               }
             })
             .where((product) => product != null)
             .cast<Product>()
-            .toList(); // Filter out nulls
+            .toList();
       } else {
         throw Exception('Failed to load products: ${response.statusCode}');
       }

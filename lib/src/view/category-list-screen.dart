@@ -62,25 +62,19 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 controller: _searchController,
                 decoration: const InputDecoration(
                   hintText: 'Searching...',
-                  hintStyle: TextStyle(
-                      color: Colors.white), // Change hint text color to white
-                  prefixIcon: Icon(Icons.search,
-                      color: Colors.white), // Change prefix icon color to white
+                  hintStyle: TextStyle(color: Colors.white),
+                  prefixIcon: Icon(Icons.search, color: Colors.white),
                   border: InputBorder.none,
                 ),
-                style: TextStyle(
-                    color: Colors.white), // Change text input color to white
+                style: TextStyle(color: Colors.white),
               )
             : const Text(
                 'Toko Online',
-                style: TextStyle(
-                    color: Colors.white), // Change title text color to white
+                style: TextStyle(color: Colors.white),
               ),
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart,
-                color:
-                    Colors.white), // Change shopping cart icon color to white
+            icon: Icon(Icons.shopping_cart, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
@@ -193,14 +187,11 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                 )
                               : const SizedBox.shrink(),
                         ),
-
-                        // Loading indicator or product grid
                         _isLoading
                             ? const Center(child: CircularProgressIndicator())
                             : _filteredProducts.isNotEmpty
                                 ? SizedBox(
-                                    height:
-                                        300, // Limiting the height of the GridView
+                                    height: 300,
                                     child: GridView.builder(
                                       padding: const EdgeInsets.all(8.0),
                                       gridDelegate:
@@ -325,7 +316,6 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
       _selectedCategoryId = categoryId;
     });
 
-    // Fetch products for the selected category
     BlocProvider.of<ProductBloc>(context).add(FetchProducts());
   }
 }

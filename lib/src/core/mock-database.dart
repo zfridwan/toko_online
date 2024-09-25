@@ -1,6 +1,5 @@
 class MockDatabase {
   static Map<String, Map<String, String>> _users = {
-    // Pre-populate with a test user for easy testing
     't': {'email': 'test@example.com', 'password': '1'},
   };
   static String? currentUsername;

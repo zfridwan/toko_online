@@ -81,7 +81,6 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           children: [
             ImageBuilder(imagePath: loginImages[1]),
-            // const TextData(message: "Login User"),
             HeightSpacer(myHeight: kSpacing),
             InputField(
               focusNode: usernameFocus,
