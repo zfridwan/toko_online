@@ -9,6 +9,7 @@ import '../components/spacers.dart';
 import '../core/api-service.dart';
 import '../models/category-model.dart';
 import '../models/product-model.dart';
+import 'account-detail-screen.dart';
 import 'cart-screen.dart';
 import 'product-detail-screen.dart';
 import 'profile-screen.dart';
@@ -30,7 +31,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     CategoryListScreen(),
-    ProfileScreen(),
+    AccountDetailScreen(
+      username: '',
+    ),
   ];
 
   PageController _pageController = PageController();

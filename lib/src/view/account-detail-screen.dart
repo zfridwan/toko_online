@@ -12,7 +12,11 @@ class AccountDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account Detail'),
+        title: const Text(
+          'Account Detail',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blue, // Set background color to blue
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
