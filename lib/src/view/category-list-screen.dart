@@ -235,7 +235,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                                   ),
                                                   child: Image.network(
                                                     product.image,
-                                                    height: 100,
+                                                    height: 150,
                                                     width: double.infinity,
                                                     fit: BoxFit.cover,
                                                     errorBuilder: (context,
