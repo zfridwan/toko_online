@@ -1,0 +1,8 @@
+{
+  "/backend": {
+    "target": "http://172.20.10.2",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
