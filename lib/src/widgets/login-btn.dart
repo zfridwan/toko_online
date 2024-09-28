@@ -19,7 +19,7 @@ class LoginBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kHPadding,
+      padding: Constants.kHPadding,
       child: OutlinedButton(
         focusNode: focusNode,
         style: OutlinedButton.styleFrom(

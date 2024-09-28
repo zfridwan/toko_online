@@ -30,7 +30,7 @@ class SocialSignIn extends StatelessWidget {
           ),
           height: 40,
           decoration: BoxDecoration(
-            borderRadius: kBorderRadius,
+            borderRadius: Constants.kBorderRadius,
             color: btnColor,
           ),
           child: Row(

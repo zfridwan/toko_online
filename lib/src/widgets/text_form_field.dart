@@ -19,7 +19,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kHPadding,
+      padding: Constants.kHPadding,
       child: TextFormField(
         obscureText: label == "Password" ? true : false,
         controller: textController,
@@ -30,10 +30,10 @@ class InputField extends StatelessWidget {
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: Colors.blue),
-                borderRadius: kBorderRadius),
+                borderRadius: Constants.kBorderRadius),
             focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: Colors.blue),
-                borderRadius: kBorderRadius),
+                borderRadius: Constants.kBorderRadius),
             hintStyle: const TextStyle(color: Colors.blue),
             filled: true,
             fillColor: Colors.transparent,

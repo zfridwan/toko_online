@@ -1,8 +1,7 @@
 {
-  "/backend": {
-    "target": "http://172.20.10.2",
+  "/api": {
+    "target": "http://172.20.10.2/backend",
     "secure": false,
-    "changeOrigin": true,
-    "logLevel": "debug"
+    "changeOrigin": true
   }
 }

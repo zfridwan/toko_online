@@ -81,27 +81,27 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           children: [
             ImageBuilder(imagePath: loginImages[1]),
-            HeightSpacer(myHeight: kSpacing),
+            HeightSpacer(myHeight: Constants.kSpacing),
             InputField(
               focusNode: usernameFocus,
               textController: userName,
               label: "Username",
               icons: const Icon(Icons.person, color: Colors.blue),
             ),
-            HeightSpacer(myHeight: kSpacing),
+            HeightSpacer(myHeight: Constants.kSpacing),
             InputField(
               focusNode: passwordFocus,
               textController: password,
               label: "Password",
               icons: const Icon(Icons.lock, color: Colors.blue),
             ),
-            HeightSpacer(myHeight: kSpacing),
+            HeightSpacer(myHeight: Constants.kSpacing),
             LoginBtn(
               focusNode: loginBtnFocus,
               userName: userName,
               password: password,
             ),
-            HeightSpacer(myHeight: kSpacing),
+            HeightSpacer(myHeight: Constants.kSpacing),
             const SocialSignIn(),
           ],
         ),

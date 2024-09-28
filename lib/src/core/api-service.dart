@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../constants.dart';
 import '../models/category-model.dart';
 import '../models/product-model.dart';
 
 class ApiService {
-  final String _baseUrl =
-      'http://172.20.10.2/backend'; // Change to 'http://10.0.2.2/backend' if using an emulator
-  final String _apiKey =
-      '0df60dd12d64c855a7312bb07e1308e3'; // Use your actual API key
+  final String _baseUrl = 'http://192.168.0.10:3000';
+
   final http.Client httpClient;
 
   ApiService({http.Client? client}) : httpClient = client ?? http.Client();
@@ -15,14 +14,14 @@ class ApiService {
   Map<String, String> _getHeaders() {
     return {
       'Content-Type': 'application/json',
-      'api_key': _apiKey, // Correctly pass the API key here
+      'api_key': Constants.apiKey,
     };
   }
 
   Future<List<Category>> getCategories() async {
     try {
       final response = await httpClient.get(
-        Uri.parse('$_baseUrl/categories.php'),
+        Uri.parse('$_baseUrl/categories'),
         headers: _getHeaders(),
       );
 
@@ -30,8 +29,12 @@ class ApiService {
       print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonList = json.decode(response.body);
-        return jsonList.map((json) => Category.fromJson(json)).toList();
+        try {
+          final List<dynamic> jsonList = json.decode(response.body);
+          return jsonList.map((json) => Category.fromJson(json)).toList();
+        } catch (e) {
+          throw FormatException('Invalid JSON format: $e');
+        }
       } else {
         throw Exception('Failed to load categories: ${response.statusCode}');
       }
@@ -44,7 +47,7 @@ class ApiService {
   Future<List<Product>> getProducts() async {
     try {
       final response = await httpClient.get(
-        Uri.parse('$_baseUrl/products.php'),
+        Uri.parse('$_baseUrl/products'),
         headers: _getHeaders(),
       );
 
@@ -52,7 +55,6 @@ class ApiService {
         print('Response body: ${response.body}');
 
         final List<dynamic> jsonList = json.decode(response.body);
-
         return jsonList
             .map((json) {
               try {
