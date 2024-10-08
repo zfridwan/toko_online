@@ -102,7 +102,7 @@ class _SignInScreenState extends State<SignInScreen> {
               password: password,
             ),
             HeightSpacer(myHeight: Constants.kSpacing),
-            const SocialSignIn(),
+            // const SocialSignIn(),
           ],
         ),
       );

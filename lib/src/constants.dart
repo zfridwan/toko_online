@@ -7,5 +7,6 @@ class Constants {
   static const EdgeInsets kHPadding = EdgeInsets.symmetric(horizontal: 50.00);
   static const EdgeInsets kVPadding = EdgeInsets.symmetric(vertical: 20.00);
   static const Color primaryColor = Colors.green;
-  static const String apiKey = '0df60dd12d64c855a7312bb07e1308e3';
+  static const String apiKey =
+      '94e5698816df18a92a8feedff66dacc9d91db10d2532ef5c12fc1fb9430d5041';
 }

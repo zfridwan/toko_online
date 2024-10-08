@@ -60,7 +60,7 @@ class _CartScreenState extends State<CartScreen> {
                       style: TextStyle(fontSize: 14),
                     ),
                     subtitle: Text(
-                      'Quantity: ${item.quantity}\nTotal: \$${item.totalPrice.toStringAsFixed(2)}',
+                      'Quantity: ${item.quantity}\nTotal: \Rp.${item.totalPrice.toStringAsFixed(2)}',
                       style: TextStyle(fontSize: 14),
                     ),
                     trailing: Row(
@@ -98,7 +98,7 @@ class _CartScreenState extends State<CartScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Total: \$${totalPrice.toStringAsFixed(2)}',
+              'Total: \Rp.${totalPrice.toStringAsFixed(2)}',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
