@@ -1,14 +1,20 @@
 class MockDatabase {
-  static Map<String, Map<String, String>> _users = {
-    't': {'email': 'test@example.com', 'password': '1'},
+  static Map<String, Map<String, String>> _userData = {
+    "validUser": {"email": "user@example.com"},
+    // Add more users as needed
   };
+
+  static Map<String, String>? getUserDetails(String username) {
+    return _userData[username]; // Returns null if username doesn't exist
+  }
+
   static String? currentUsername;
 
   static bool signUp(String username, String email, String password) {
-    if (_users.containsKey(username)) {
+    if (_userData.containsKey(username)) {
       return false;
     } else {
-      _users[username] = {
+      _userData[username] = {
         'email': email,
         'password': password,
       };
@@ -19,17 +25,13 @@ class MockDatabase {
 
   static bool signIn(String username, String password) {
     print("Attempting sign-in with Username: $username, Password: $password");
-    if (_users.containsKey(username) &&
-        _users[username]!['password'] == password) {
+    if (_userData.containsKey(username) &&
+        _userData[username]!['password'] == password) {
       print("Sign-in successful for user: $username");
       currentUsername = username;
       return true;
     }
     print("Sign-in failed for user: $username");
     return false;
-  }
-
-  static Map<String, String>? getUserDetails(String username) {
-    return _users[username];
   }
 }

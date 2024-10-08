@@ -6,23 +6,42 @@ import '../models/product-model.dart';
 
 class ApiService {
   final String _baseUrl = 'http://192.168.0.10:3000';
-
   final http.Client httpClient;
 
   ApiService({http.Client? client}) : httpClient = client ?? http.Client();
 
-  Map<String, String> _getHeaders() {
+  Future<String?> _fetchApiKey() async {
+    try {
+      final response = await httpClient.get(Uri.parse('$_baseUrl/api-keys'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        if (data.isNotEmpty) {
+          return data[0]['api_key'] as String;
+        }
+      } else {
+        print('Failed to load API keys: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching API key: $e');
+    }
+    return null;
+  }
+
+  Future<Map<String, String>> _getHeaders() async {
+    String? apiKey = await _fetchApiKey();
     return {
       'Content-Type': 'application/json',
-      'api_key': Constants.apiKey,
+      'api_key': apiKey ?? '',
     };
   }
 
   Future<List<Category>> getCategories() async {
     try {
+      final headers = await _getHeaders();
       final response = await httpClient.get(
         Uri.parse('$_baseUrl/categories'),
-        headers: _getHeaders(),
+        headers: headers,
       );
 
       print('Response status: ${response.statusCode}');
@@ -46,9 +65,10 @@ class ApiService {
 
   Future<List<Product>> getProducts() async {
     try {
+      final headers = await _getHeaders();
       final response = await httpClient.get(
         Uri.parse('$_baseUrl/products'),
-        headers: _getHeaders(),
+        headers: headers,
       );
 
       if (response.statusCode == 200) {
@@ -78,9 +98,10 @@ class ApiService {
 
   Future<List<Product>> getProductsByCategory(int categoryId) async {
     try {
+      final headers = await _getHeaders();
       final response = await httpClient.get(
         Uri.parse('$_baseUrl/products?categoryId=$categoryId'),
-        headers: _getHeaders(),
+        headers: headers,
       );
 
       if (response.statusCode == 200) {

@@ -5,6 +5,7 @@ import 'src/bloc/products/products_bloc.dart';
 import 'src/core/api-service.dart';
 import 'src/routes/routes_generator.dart';
 import 'src/bloc/category/category_bloc.dart';
+import 'src/bloc/authentication/auth_bloc.dart'; // Import your AuthBloc
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -16,8 +17,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<CategoryBloc>(
           create: (context) => CategoryBloc(ApiService()),
         ),
-        BlocProvider(
+        BlocProvider<ProductBloc>(
           create: (context) => ProductBloc(ApiService()),
+        ),
+        BlocProvider<AuthBloc>(
+          // Add AuthBloc here
+          create: (context) => AuthBloc(),
         ),
       ],
       child: MaterialApp(

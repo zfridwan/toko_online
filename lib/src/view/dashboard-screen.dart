@@ -29,11 +29,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   TextEditingController _searchController = TextEditingController();
   double screenWidth = 0.0;
   int _currentIndex = 0;
+  final String username = '';
   final List<Widget> _children = [
     CategoryListScreen(),
-    AccountDetailScreen(
-      username: '',
-    ),
+    AccountDetailScreen(),
   ];
 
   PageController _pageController = PageController();
