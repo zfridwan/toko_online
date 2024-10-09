@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import '../constants.dart';
 import '../models/category-model.dart';
 import '../models/product-model.dart';
+import '../models/user.dart';
 
 class ApiService {
   final String _baseUrl = 'http://192.168.0.10:3000';
@@ -115,5 +116,40 @@ class ApiService {
       print('Error fetching products for category $categoryId: $e');
       rethrow;
     }
+  }
+
+  Future<User> signUp(String email, String password) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/signUp'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'password': password}),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to sign up: ${response.body}');
+    }
+
+    // Parse the response body and return User object
+    final data = jsonDecode(response.body);
+    if (data['email'] == null) {
+      throw Exception('Email not returned in response');
+    }
+
+    return User(email: data['email']); // Ensure User has email property
+  }
+
+  Future<String> signIn(String email, String password) async {
+    final response = await http.post(
+      Uri.parse('$_baseUrl/signIn'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email, 'password': password}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to sign in: ${response.body}');
+    }
+
+    final data = jsonDecode(response.body);
+    return data['email']; // Make sure your API response has the email field
   }
 }

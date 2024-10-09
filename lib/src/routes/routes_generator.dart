@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toko_online/src/bloc/products/products_bloc.dart';
-
 import '../bloc/category/category_bloc.dart';
 import '../bloc/dashboard/dashboard_bloc.dart';
 import '../bloc/authentication/auth_bloc.dart';
-
+import '../bloc/products/products_bloc.dart';
 import '../core/api-service.dart';
 import '../view/category-list-screen.dart';
 import '../view/dashboard-screen.dart';
 import '../view/sign-in-screen.dart';
+import '../view/sign-up-screen.dart';
 
 class RouteGenerator {
-  final AuthBloc _authBloc = AuthBloc();
-  final DashboardBloc _dashboardBloc = DashboardBloc();
   final ApiService _categoryRepository = ApiService();
   final ApiService _productsRepository = ApiService();
+  final ApiService _userRepository = ApiService();
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -23,18 +21,28 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => BlocProvider<AuthBloc>.value(
-            value: _authBloc,
-            child: const SignInScreen(title: "Login page with overlay"),
+          builder: (_) => BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(_userRepository),
+            child: SignInScreen(),
+          ),
+        );
+
+      case '/signUp': // Add this case for sign up
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(_userRepository),
+            child: SignUpScreen(), // Navigate to SignUpScreen
           ),
         );
 
       case '/dashboard':
         if (args is String) {
           return MaterialPageRoute(
-            builder: (context) => BlocProvider<DashboardBloc>.value(
-              value: _dashboardBloc,
-              child: DashboardScreen(title: "Dashboard", username: args),
+            builder: (context) => BlocProvider<DashboardBloc>(
+              create: (_) => DashboardBloc(
+                  ApiService()), // Create DashboardBloc with ApiService
+              child: DashboardScreen(
+                  title: "", email: args), // Use email instead of username
             ),
           );
         }
@@ -68,7 +76,7 @@ class RouteGenerator {
           title: const Text('Error'),
         ),
         body: const Center(
-          child: Text('navigasi routes error'),
+          child: Text('Navigasi routes error'),
         ),
       );
     });

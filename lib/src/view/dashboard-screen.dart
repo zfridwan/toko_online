@@ -1,25 +1,18 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
-import 'package:toko_online/src/view/category-list-screen.dart';
 import '../bloc/dashboard/dashboard_bloc.dart';
-import '../components/loader.dart';
-import '../components/spacers.dart';
-import '../core/api-service.dart';
-import '../models/category-model.dart';
-import '../models/product-model.dart';
 import 'account-detail-screen.dart';
-import 'cart-screen.dart';
-import 'product-detail-screen.dart';
-import 'profile-screen.dart';
+import 'category-list-screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key, required this.title, required this.username})
-      : super(key: key);
-
   final String title;
-  final String username;
+  final String email; // This will store the email passed from AuthSuccess
+
+  const DashboardScreen({
+    Key? key,
+    required this.title,
+    required this.email, // Ensure email is passed when navigating to this screen
+  }) : super(key: key);
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -29,19 +22,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   TextEditingController _searchController = TextEditingController();
   double screenWidth = 0.0;
   int _currentIndex = 0;
-  final String username = '';
-  final List<Widget> _children = [
-    CategoryListScreen(),
-    AccountDetailScreen(),
-  ];
 
-  PageController _pageController = PageController();
+  late PageController _pageController;
 
-  void onTabTapped(int index) {
-    _pageController.jumpToPage(index);
-    setState(() {
-      _currentIndex = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
@@ -51,9 +38,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.dispose();
   }
 
-  @override
-  void initState() {
-    super.initState();
+  // To handle tab switching
+  void onTabTapped(int index) {
+    _pageController.jumpToPage(index);
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override
@@ -69,9 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
         builder: (context, state) {
           if (state is DashboardLoading) {
-            return LoadingWidget(
-              child: initialLayout(context),
-            );
+            return const Center(child: CircularProgressIndicator());
           } else {
             return PageView(
               controller: _pageController,
@@ -80,12 +68,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   _currentIndex = index;
                 });
               },
-              children: _children,
+              children: [
+                CategoryListScreen(),
+                // Pass the email from DashboardScreen to AccountDetailScreen
+                AccountDetailScreen(username: widget.email),
+              ],
             );
           }
         },
       ),
-      // Adding Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: onTabTapped,
@@ -102,15 +93,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
-  Widget initialLayout(BuildContext context) => const Center(
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: CategoryListScreen(),
-            ),
-          ],
-        ),
-      );
 }

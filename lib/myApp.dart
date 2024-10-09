@@ -5,24 +5,26 @@ import 'src/bloc/products/products_bloc.dart';
 import 'src/core/api-service.dart';
 import 'src/routes/routes_generator.dart';
 import 'src/bloc/category/category_bloc.dart';
-import 'src/bloc/authentication/auth_bloc.dart'; // Import your AuthBloc
+import 'src/bloc/authentication/auth_bloc.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ApiService apiService =
+        ApiService(); // Create the ApiService instance
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<CategoryBloc>(
-          create: (context) => CategoryBloc(ApiService()),
+          create: (context) => CategoryBloc(apiService),
         ),
         BlocProvider<ProductBloc>(
-          create: (context) => ProductBloc(ApiService()),
+          create: (context) => ProductBloc(apiService),
         ),
         BlocProvider<AuthBloc>(
-          // Add AuthBloc here
-          create: (context) => AuthBloc(),
+          create: (context) => AuthBloc(apiService), // Pass the ApiService here
         ),
       ],
       child: MaterialApp(
