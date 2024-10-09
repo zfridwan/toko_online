@@ -56,7 +56,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue, // Set background color to blue
+        backgroundColor: Colors.blue,
         title: _isSearching
             ? TextField(
                 controller: _searchController,

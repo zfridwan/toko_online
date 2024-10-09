@@ -1,40 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/authentication/auth_bloc.dart';
-import '../constants.dart';
+class InputField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final bool isPassword;
+  final String? Function(String?)? validator;
 
-class LoginBtn extends StatelessWidget {
-  const LoginBtn(
-      {Key? key,
-      required this.focusNode,
-      required this.userName,
-      required this.password})
-      : super(key: key);
-
-  final FocusNode focusNode;
-  final TextEditingController userName;
-  final TextEditingController password;
+  const InputField({
+    Key? key,
+    required this.controller,
+    required this.label,
+    this.isPassword = false,
+    this.validator,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: Constants.kHPadding,
-      child: OutlinedButton(
-        focusNode: focusNode,
-        style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.blue, width: 1),
-            minimumSize: const Size(double.infinity, 54),
-            backgroundColor: Colors.blue[50]),
-        onPressed: () {
-          BlocProvider.of<AuthBloc>(context)
-              .add(Login(userName.text, password.text));
-        },
-        child: const Text(
-          'Login',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+    return TextFormField(
+      controller: controller,
+      obscureText: isPassword,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
       ),
+      validator: validator,
     );
   }
 }

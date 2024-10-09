@@ -27,11 +27,11 @@ class RouteGenerator {
           ),
         );
 
-      case '/signUp': // Add this case for sign up
+      case '/signUp':
         return MaterialPageRoute(
           builder: (_) => BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(_userRepository),
-            child: SignUpScreen(), // Navigate to SignUpScreen
+            child: SignUpScreen(),
           ),
         );
 
@@ -39,10 +39,8 @@ class RouteGenerator {
         if (args is String) {
           return MaterialPageRoute(
             builder: (context) => BlocProvider<DashboardBloc>(
-              create: (_) => DashboardBloc(
-                  ApiService()), // Create DashboardBloc with ApiService
-              child: DashboardScreen(
-                  title: "", email: args), // Use email instead of username
+              create: (_) => DashboardBloc(ApiService()),
+              child: DashboardScreen(title: "", email: args),
             ),
           );
         }

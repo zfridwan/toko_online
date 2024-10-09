@@ -10,9 +10,9 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthSuccess extends AuthState {
-  final String email; // Include email in AuthSuccess
+  final String email;
 
-  AuthSuccess(this.email); // Constructor to accept email
+  AuthSuccess(this.email);
 }
 
 class AuthFailure extends AuthState {

@@ -6,12 +6,12 @@ import 'category-list-screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   final String title;
-  final String email; // This will store the email passed from AuthSuccess
+  final String email;
 
   const DashboardScreen({
     Key? key,
     required this.title,
-    required this.email, // Ensure email is passed when navigating to this screen
+    required this.email,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.dispose();
   }
 
-  // To handle tab switching
   void onTabTapped(int index) {
     _pageController.jumpToPage(index);
     setState(() {
@@ -70,7 +69,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
               children: [
                 CategoryListScreen(),
-                // Pass the email from DashboardScreen to AccountDetailScreen
                 AccountDetailScreen(username: widget.email),
               ],
             );

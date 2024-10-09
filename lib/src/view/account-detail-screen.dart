@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AccountDetailScreen extends StatelessWidget {
-  final String username; // Make sure to pass username or email
+  final String username;
 
   const AccountDetailScreen({Key? key, required this.username})
       : super(key: key);
@@ -22,7 +22,7 @@ class AccountDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Email: $username', // Display the passed username/email
+              'Email: $username',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ],

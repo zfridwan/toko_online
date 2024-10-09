@@ -13,9 +13,7 @@ import 'package:toko_online/src/view/sign-in-screen.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(SignInScreen(
-      title: '',
-    ));
+    await tester.pumpWidget(SignInScreen());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

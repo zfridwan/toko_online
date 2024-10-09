@@ -129,13 +129,12 @@ class ApiService {
       throw Exception('Failed to sign up: ${response.body}');
     }
 
-    // Parse the response body and return User object
     final data = jsonDecode(response.body);
     if (data['email'] == null) {
       throw Exception('Email not returned in response');
     }
 
-    return User(email: data['email']); // Ensure User has email property
+    return User(email: data['email']);
   }
 
   Future<String> signIn(String email, String password) async {
@@ -150,6 +149,6 @@ class ApiService {
     }
 
     final data = jsonDecode(response.body);
-    return data['email']; // Make sure your API response has the email field
+    return data['email'];
   }
 }

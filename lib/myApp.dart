@@ -12,8 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ApiService apiService =
-        ApiService(); // Create the ApiService instance
+    final ApiService apiService = ApiService();
 
     return MultiBlocProvider(
       providers: [
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ProductBloc(apiService),
         ),
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(apiService), // Pass the ApiService here
+          create: (context) => AuthBloc(apiService),
         ),
       ],
       child: MaterialApp(
