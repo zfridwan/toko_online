@@ -74,7 +74,6 @@ class ApiService {
 
       if (response.statusCode == 200) {
         print('Response body: ${response.body}');
-
         final List<dynamic> jsonList = json.decode(response.body);
         return jsonList
             .map((json) {
@@ -89,6 +88,8 @@ class ApiService {
             .cast<Product>()
             .toList();
       } else {
+        print(
+            'Failed to load products: ${response.body}'); // Log the error response
         throw Exception('Failed to load products: ${response.statusCode}');
       }
     } catch (e) {
