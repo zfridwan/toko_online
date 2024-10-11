@@ -121,7 +121,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                       ? 4
                       : screenWidth > 600
                           ? 3
-                          : 2;
+                          : 3;
 
                   return SingleChildScrollView(
                     child: Column(
@@ -191,7 +191,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                             ? const Center(child: CircularProgressIndicator())
                             : _filteredProducts.isNotEmpty
                                 ? SizedBox(
-                                    height: 300,
+                                    height: 200,
                                     child: GridView.builder(
                                       padding: const EdgeInsets.all(8.0),
                                       gridDelegate:
